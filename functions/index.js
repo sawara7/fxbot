@@ -30,7 +30,7 @@ exports.botFunction = functions.pubsub.schedule("every 1 minutes").onRun((contex
             list = response.body.trades;
             if (list.length === 500) {
                 ct.trade.close(
-                    accountID3,
+                    env.accountID_sub3,
                     list[list.length-1].id,
                     {},
                     (response) => {

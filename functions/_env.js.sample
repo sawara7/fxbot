@@ -1,0 +1,19 @@
+const uri = 'api-fxtrade.oanda.com'; //本番or練習
+const accountID_main =  'メインアカウント';
+const accountID_sub1 =  'サブアカウント1';
+const accountID_sub2 =  'サブアカウント2';
+const accountID_sub3 =  'サブアカウント3';
+const accountID_sub4 =  'サブアカウント4';
+const accountID_sub5 =  'サブアカウント5';
+const accountID_sub6 =  'サブアカウント6';
+const apiToken = 'トークン';
+
+exports.uri = uri;
+exports.accountID_main = accountID_main;
+exports.accountID_sub1 = accountID_sub1;
+exports.accountID_sub2 = accountID_sub2;
+exports.accountID_sub3 = accountID_sub3;
+exports.accountID_sub4 = accountID_sub4;
+exports.accountID_sub5 = accountID_sub5;
+exports.accountID_sub6 = accountID_sub6;
+exports.apiToken       = apiToken;

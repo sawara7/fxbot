@@ -31,13 +31,13 @@ let DoOrderMarket = async (id, orderRequest)=>{
         }
     )
 
-    await (async () => {
-        while (true) {
-            if (result !== undefined) {
-                return;
-            }
-        }
-    })
+    // await (async () => {
+    //     while (true) {
+    //         if (result !== undefined) {
+    //             return;
+    //         }
+    //     }
+    // })
 
     return result;
 };
@@ -51,13 +51,13 @@ let GetTrades = async (id, tradeRequest) => {
             result = response.body.trades;
         });
 
-    await (async () => {
-        while (true) {
-            if (result !== undefined) {
-                return;
-            }
-        }
-    })
+    // await (async () => {
+    //     while (true) {
+    //         if (result !== undefined) {
+    //             return;
+    //         }
+    //     }
+    // })
     
     return result;
 };
@@ -83,8 +83,3 @@ let CloseOldestPosition = async (id, tradeRequest) => {
     }
     return true; // TODO: return response.
 };
-
-
-exports.DoOrderMarket = DoOrderMarket;
-exports.DoTradesLoop = DoTradesLoop;
-exports.CloseOldestPosition = CloseOldestPosition;

@@ -3,8 +3,8 @@ const oanda = require("@oanda/v20/context");
 const ct = new oanda.Context(env.uri, 443, true, '');
 ct.setToken(env.apiToken);
 
-const TARGET_INSTRUMENT = 'USD_JPY';
-const TARGET_UNIT = 1;
+const TARGET_INSTRUMENT = 'ZAR_JPY';
+const TARGET_UNIT = 15;
 const MAX_TRADE_COUNT = 500;
 
 const ORDER_REQUEST_1 = {
@@ -18,28 +18,18 @@ const TRADE_REQUEST = {
     'count': MAX_TRADE_COUNT
 };
 
-let DoOrderMarket = async (id, orderRequest)=>{
-    let result;
+const DoOrderMarket = async (id, orderRequest)=>{
     ct.order.market(
         id,
         {
-            'instrument': 'USD_JPY',
-            'units': 10
+            'instrument': orderRequest.instrument,
+            'units': orderRequest.units
         },
         (response) => {
-            result = response;
+            console.log(response.body)
         }
     )
-
-    // await (async () => {
-    //     while (true) {
-    //         if (result !== undefined) {
-    //             return;
-    //         }
-    //     }
-    // })
-
-    return result;
+    return 'ok';
 };
 
 let GetTrades = async (id, tradeRequest) => {
@@ -83,3 +73,11 @@ let CloseOldestPosition = async (id, tradeRequest) => {
     }
     return true; // TODO: return response.
 };
+
+const OrderMarket = async() => {
+    let result;
+    result = await DoOrderMarket(env.accountID_sub1, ORDER_REQUEST_1 );
+    console.log(result);
+}
+
+exports.OrderMarket = OrderMarket;

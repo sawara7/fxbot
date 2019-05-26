@@ -35,10 +35,23 @@ const BuyMarket = async (pair, amount) => {
     console.log(result.data);
 };
 
-const DobitbankEarlyMorningFunction = async() => {
-    await BuyMarket('btc_jpy', 0.1);
+const SellMarket = async (pair, amount) => {
+    const params = {
+        'pair': pair,
+        'amount': amount,
+        'side': 'sell',
+        'type': 'market'
+    };
+    const result = await privateApi.postOrder(params);
+    console.log(result.data);
+};
+
+exports.DobitbankAM4Function = async() => {
     await BuyMarket('mona_jpy', 500);
     return 'ok';
 }
 
-exports.DobitbankEarlyMorningFunction = DobitbankEarlyMorningFunction;
+exports.DobitbankAM7Function = async() => {
+    await SellMarket('mona_jpy', 500);
+    return 'ok';
+}

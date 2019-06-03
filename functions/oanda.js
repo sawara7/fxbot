@@ -3,13 +3,20 @@ const oanda = require("@oanda/v20/context");
 const ct = new oanda.Context(env.uri, 443, true, '');
 ct.setToken(env.apiToken);
 
-const TARGET_INSTRUMENT = 'ZAR_JPY';
-const TARGET_UNIT = 15;
+const TARGET_INSTRUMENT1 = 'ZAR_JPY';
+const TARGET_UNIT1 = 1500;
+const TARGET_INSTRUMENT2 = 'USD_JPY';
+const TARGET_UNIT2 = 100;
 const MAX_TRADE_COUNT = 500;
 
 const ORDER_REQUEST_1 = {
-    'instrument': TARGET_INSTRUMENT,
-    'units': TARGET_UNIT
+    'instrument': TARGET_INSTRUMENT1,
+    'units': TARGET_UNIT1
+};
+
+const ORDER_REQUEST_2 = {
+    'instrument': TARGET_INSTRUMENT2,
+    'units': TARGET_UNIT2
 };
 
 const TRADE_REQUEST = {
@@ -77,6 +84,8 @@ let CloseOldestPosition = async (id, tradeRequest) => {
 const OrderMarket = async() => {
     let result;
     result = await DoOrderMarket(env.accountID_sub1, ORDER_REQUEST_1 );
+    console.log(result);
+    result = await DoOrderMarket(env.accountID_sub2, ORDER_REQUEST_2 );
     console.log(result);
 }
 

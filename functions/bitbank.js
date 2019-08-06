@@ -47,7 +47,7 @@ const SellMarket = async (pair, amount) => {
 };
 
 exports.DobitbankAM4Function = async() => {
-    await BuyMarket('mona_jpy', 500);
+    await BuyMarket('mona_jpy', 1);
     return 'ok';
 }
 

@@ -65,3 +65,6 @@ node_modules/
 .env
 sample.js
 .vscode/launch.json
+
+package-lock.json
+functions/package-lock.json

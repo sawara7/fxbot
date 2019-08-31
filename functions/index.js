@@ -8,7 +8,7 @@ exports.oandaFunction = functions.pubsub.schedule("59 13 * * *").onRun((context)
 });
 
 exports.oandaFunction2 = functions.pubsub.schedule("59 * * * *").onRun((context) => {
-    oanda.ConstantOrder(env.accountID_sub5,"TRY_JPY", 10, 0.01);
+    oanda.ConstantOrder(env.accountID_sub5,"TRY_JPY", 20, 0.01);
 });
 
 exports.bitbankFunction = functions.pubsub.schedule("* * * * *").onRun((context) => {

@@ -5,9 +5,9 @@ const util = require('./utils');
 ct.setToken(env.apiToken);
 
 const TARGET_INSTRUMENT1 = 'ZAR_JPY';
-const TARGET_UNIT1 = 1500;
+const TARGET_UNIT1 = 2000;
 const TARGET_INSTRUMENT2 = 'USD_JPY';
-const TARGET_UNIT2 = 100;
+const TARGET_UNIT2 = 200;
 const MAX_TRADE_COUNT = 500;
 
 const ORDER_REQUEST_1 = {

@@ -1,36 +1,40 @@
 <template>
   <v-app>
-    <v-app-bar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        text
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
-    </v-app-bar>
-
+    <header> My FX Portfolio</header>
     <v-content>
-      <HelloWorld/>
+      <Home v-if="isAdmin"/>
+      <Login  v-if="!isAdmin"/>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import Home from './views/Home';
+import Login from './views/Login';
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld,
+  name: 'fxApp',
+  data() {
+      return {
+        isAdmin : false,
+        id : ""
+      };
   },
-  data: () => ({
-    //
-  }),
+  created() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user){
+        let aRef = firebase.database().ref('admin-uid/' + user.uid);
+        aRef.on("value", (value) => {
+          if(value.val()==true){
+            this.id = user.uid;
+            this.isAdmin=true;
+            }});
+      }
+    });
+  },
+  components: {
+    Home,
+    Login
+  },
 };
 </script>

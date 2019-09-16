@@ -1,4 +1,4 @@
-let sample = require("./logic/oanda-aji");
+let sample = require("./logic/check-balance");
 
 (async () => {
     await sample.doExecute()

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,6 +14,17 @@
       <strong>We're sorry but fxbot_firebase doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+    <script>
+      var config = {
+        apiKey: "AIzaSyCl6DTbwwz7UK62-WH_M6PF50VZJwOelRw",
+        authDomain: "fxbot-c80cd.firebaseapp.com",
+        projectId: "fxbot-c80cd",
+        databaseURL: "https://fxbot-c80cd.firebaseio.com",
+        projectId: "fxbot",
+        messagingSenderId: "995274100570"
+      };
+      firebase.initializeApp(config);
+    </script>
   </body>
 </html>

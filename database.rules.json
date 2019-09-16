@@ -1,6 +1,6 @@
 {
   "rules": {
-    ".read": false,
+    ".read": "root.child('admin-uid').child(auth.uid).exists()",
     ".write": false
   }
 }

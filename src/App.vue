@@ -1,16 +1,17 @@
 <template>
   <v-app>
-    <header> My FX Portfolio</header>
-    <v-content>
-      <Home v-if="isAdmin"/>
-      <Login  v-if="!isAdmin"/>
-    </v-content>
+    <vMenu/>
+    <vHome v-if="isAdmin"/>
+    <vLogin v-if="!isAdmin"/>
+    <vFooter/>
   </v-app>
 </template>
 
 <script>
-import Home from './views/Home';
-import Login from './views/Login';
+import vMenu   from './components/Menu'
+import vFooter from './components/Footer'
+import vHome   from './views/Home';
+import vLogin  from './views/Login';
 
 export default {
   name: 'fxApp',
@@ -33,8 +34,10 @@ export default {
     });
   },
   components: {
-    Home,
-    Login
+    vMenu,
+    vFooter,
+    vHome,
+    vLogin
   },
 };
 </script>

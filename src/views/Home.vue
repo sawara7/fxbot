@@ -7,28 +7,19 @@
                 md12 lg4 xl4
                 v-for="(account,i) of accounts" 
                 :key="i"
-                class = "pa-2"
+                pa-2
                 >
             <v-card elevation=1>
-              <v-card-title class="font-weight-Bold">
-                <p :class="{
-                    'myclass1' : true,
-                    'display-4': $vuetify.breakpoint.smAndDown,
-                    'display-2': $vuetify.breakpoint.mdOnly,
-                    'headline': $vuetify.breakpoint.lgAndUp
-                    }">{{account.exchange + "/" + account.account}}</p>
-              </v-card-title>
-              <v-card-img></v-card-img>
-              <v-card-text class="font-weight-light">
-                <p :class="{
-                  'myclass1' : true,
-                  'display-2': $vuetify.breakpoint.smAndDown,
-                  'headline': $vuetify.breakpoint.mdOnly,
-                  'title': $vuetify.breakpoint.lgAndUp
-                  }">
-                  {{ account.total }} yen <br>
-                  {{ account.date }}    
-                </p>
+              <v-card-text>
+                <p class="headline">{{account.exchange}}/{{account.account}}</p>
+                <p class="display-1 text--primary">&yen;{{account.total}}</p>
+                <v-sparkline
+                  :value="account.history"
+                  :gradient="color"
+                  line-width=1
+                  auto-draw
+                ></v-sparkline>
+                <div>{{account.date}}</div>
               </v-card-text>
           </v-card>
         </v-flex>
@@ -42,6 +33,7 @@
 export default {
   data() {
     return {
+      color: ['#f72047', '#ffd200', '#1feaea'],
       accounts :[]
     }
   },
@@ -56,9 +48,16 @@ export default {
               let value = {};
               value["exchange"] = exchange;
               value["account"]  = account;
-              let latest_key = Math.max(Object.keys(tmp[exchange][account]));
+              let array = Object.keys(tmp[exchange][account]);
+              let latest_key = Math.max.apply(null,array);
               value["total"] = Math.round(tmp[exchange][account][latest_key].total);
-              value["date"] = new Date(latest_key).toString();
+              let d = new Date(latest_key);
+              value["date"] = d.getFullYear().toString() + "/" + (d.getMonth()+1).toString() + "/" + d.getDate().toString() + " " + d.getHours().toString() + ":00";
+              value["history"] = [];
+              for (let t of Object.keys(tmp[exchange][account])){
+                let total = Number(tmp[exchange][account][t].total);
+                value["history"].push(total);
+              }
               this.accounts.push(value);
             }
           }

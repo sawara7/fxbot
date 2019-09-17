@@ -4,7 +4,7 @@ let env   = require("../_env");
 const ORDER_REQUEST = {
     'type'          : 'MARKET',
     'instrument'    : 'USD_JPY',
-    'units'         : 200,
+    'units'         : 100,
     'timeInForce'   : 'FOK',
     'positionFill'  : 'DEFAULT'
 };

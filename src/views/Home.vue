@@ -9,18 +9,26 @@
                 :key="i"
                 pa-2
                 >
-            <v-card elevation=1>
-              <v-card-text>
-                <p class="headline">{{account.exchange}}/{{account.account}}</p>
-                <p class="display-1 text--primary">&yen;{{account.total}}</p>
-                <v-sparkline
-                  :value="account.history"
-                  :gradient="color"
-                  line-width=1
-                  auto-draw
-                ></v-sparkline>
-                <div>{{account.date}}</div>
-              </v-card-text>
+          <v-card elevation=1>
+            <v-card-text>
+              <p class="headline">{{account.exchange}}/{{account.account}}</p>
+              <p class="display-1 text--primary float-left">&yen;{{account.nav}}</p>
+              <p :class="{
+                'headline': true,
+                'float-right': true,
+                'green--text': (account.percent >= 100),
+                'red--text': (account.percent < 100)
+                }">{{account.percent}}%</p>
+            </v-card-text>
+            <v-sparkline
+              :value="account.history"
+              :gradient="color"
+              line-width=1
+              auto-draw
+            ></v-sparkline>
+            <v-card-text>
+              <div>{{account.date}}</div>
+            </v-card-text>
           </v-card>
         </v-flex>
         </v-layout>
@@ -50,14 +58,17 @@ export default {
               value["account"]  = account;
               let array = Object.keys(tmp[exchange][account]);
               let latest_key = Math.max.apply(null,array);
-              value["total"] = Math.round(tmp[exchange][account][latest_key].total);
+              value["balance"] = Math.round(tmp[exchange][account][latest_key].balance);
+              value["nav"] = Math.round(tmp[exchange][account][latest_key].nav);
+              value["percent"] = Math.round(value.nav/value.balance * 10000)/100; 
               let d = new Date(latest_key);
               value["date"] = d.getFullYear().toString() + "/" + (d.getMonth()+1).toString() + "/" + d.getDate().toString() + " " + d.getHours().toString() + ":00";
               value["history"] = [];
               for (let t of Object.keys(tmp[exchange][account])){
-                let total = Number(tmp[exchange][account][t].total);
+                let total = Number(tmp[exchange][account][t].nav);
                 value["history"].push(total);
               }
+
               this.accounts.push(value);
             }
           }

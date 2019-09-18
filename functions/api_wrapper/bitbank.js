@@ -20,7 +20,8 @@ let privateApi = new bitbank.PrivateApi(conf_private);
 
 let getTicker = async (pair) => { 
     let params = {'pair': pair};
-    return await publicApi.getTicker(params);
+    let res = await publicApi.getTicker(params) 
+    return res.data;
 };
 
 let BuyMarket = async (pair, amount) => {

@@ -8,13 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 
-const http = require("http");
+const http  = require("http");
 const https = require("https");
 const axios = require("axios");
+const crypto = require('crypto');
+
 class Api {
     constructor(config, options) {
-        this.accountID = config.accountID;
-        this.token = config.token;
+        this.key = config.key;
+        this.secret = config.secret;
         this.endPoint = config.endPoint;
         this.keepAlive = config.keepAlive || false;
         this.timeout = config.timeout || 10000;
@@ -23,40 +25,44 @@ class Api {
             this.responseCallback = options.responseCallback;    
         }
     }
-    get(path, params, headers) {
+    get(path, params) {
         // eslint-disable-next-line require-yield
         return __awaiter(this, void 0, void 0, function* () {
-            return this.request('GET', path, params, {}, headers);
+            return this.request('GET', path, params, {});
         });
     }
-    post(path, data, headers) {
+    post(path, body) {
         // eslint-disable-next-line require-yield
         return __awaiter(this, void 0, void 0, function* () {
-            return this.request('POST', path, {}, data, headers);
+            return this.request('POST', path, {}, body);
         });
     }
-    request(method, path, params, data, headers) {
+    request(method, path, params, data) {
         return __awaiter(this, void 0, void 0, function* () {
+            let timestamp = Date.now().toString();
+            let text = timestamp + method + path;
+            if (data && Object.keys(data).length > 0){ 
+                text += JSON.stringify(data);
+            }
+            let sign = crypto.createHmac('sha256', this.secret).update(text).digest('hex');
             const options = {
                 method: method,
                 baseURL: this.endPoint,
                 url: path,
                 timeout: this.timeout,
-                httpAgent: new http.Agent({ keepAlive: this.keepAlive }),
                 httpsAgent: new https.Agent({ keepAlive: this.keepAlive }),
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.token
-                },
+                    'ACCESS-KEY': this.key,
+                    'ACCESS-TIMESTAMP': timestamp,
+                    'ACCESS-SIGN': sign,
+                    'Content-Type': 'application/json'
+                }
             };
             if (params && Object.keys(params).length > 0) {
                 Object.assign(options, { params });
             }
             if (data && Object.keys(data).length > 0) {
                 Object.assign(options, { data });
-            }
-            if (headers && Object.keys(headers).length > 0) {
-                Object.assign(options, { headers });
             }
             if (this.optionsCallback) {
                 yield this.optionsCallback(options);
@@ -76,17 +82,35 @@ class Api {
             });
         });
     }
-    getPricing(params) {
-        const path = '/v3/accounts/'.concat(this.accountID, '/pricing');
+    getTicker(code) {
+        const path = '/v1/ticker';
+        let params = {
+            product_code:code
+        };
         return this.get(path, params);
     }
-    getAccount() {
-        const path = '/v3/accounts/' + this.accountID;
-        return this.get(path);
+    getCollateral() {
+        const path = '/v1/me/getcollateral';
+        // {
+        //     "collateral": 100000,
+        //     "open_position_pnl": -715,
+        //     "require_collateral": 19857,
+        //     "keep_rate": 5.000
+        //   }
+        return this.get(path, {});
     }
-    postOrder(request) {
-        const path = '/v3/accounts/'.concat(this.accountID, '/orders');
-        return this.post(path, {'order': request});
+    sendChildOrder(params) {
+        const path = '/v1/me/sendchildorder';
+        let body = {
+            "product_code": params.code,
+            "child_order_type": params.type,
+            "side": params.side,
+            "size": params.size,
+            // "minute_to_expire": 10000,
+            // "time_in_force": "GTC"
+        }
+        return this.post(path, body);
     }
+
 }
 exports.Api = Api;

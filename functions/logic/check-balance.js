@@ -1,11 +1,23 @@
 /* eslint-disable promise/catch-or-return */
 let bitbank  = require("../api_wrapper/bitbank");
-let firebase = require("../api_wrapper/firebase");
+let bitflyer = require("../api_wrapper/bitflyer")
 let oanda    = require("../api_wrapper/oanda-promise/oanda-promise-extend");
+let firebase = require("../api_wrapper/firebase");
 let env      = require("../_env")
+
+let bf = new bitflyer.Api({
+    "endPoint" : env.bitflyerURL,
+    "key" : env.apiKey,
+    "secret" : env.secret
+});
 
 exports.doExecute = async() => {
     let date = new Date().getTime();
+
+    let bf_balance = await bf.getCollateral();
+    await firebase.setData('/balance-history/' + "bitflyer/primary/" + date.toString() + "/nav", bf_balance.collateral + bf_balance.open_position_pnl);
+    await firebase.setData('/balance-history/' + "bitflyer/primary/" + date.toString() + "/balance", bf_balance.collateral);
+
     let bitbank_balance = await bitbank.getAssets();
     let total_balance = 0;
     await Promise.all(
@@ -29,7 +41,7 @@ exports.doExecute = async() => {
     });
 
     let list = Object.keys(env.accountIDList);
-    Promise.all(
+    await Promise.all(
         list.map(async key => {
             api.accountID = env.accountIDList[key];
             let oanda_balance = await api.getAccount();
@@ -38,4 +50,5 @@ exports.doExecute = async() => {
         })
     )
     console.log("ok")
+    return "ok"
 }

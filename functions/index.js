@@ -10,6 +10,8 @@ const TRIGGER_TIME_OANDA_AJI     = "21 0,4,8,12,16,20 * * *"
 const TRIGGER_TIME_OANDA_SAWARA  = "31 0,4,8,12,16,20 * * *"
 const TRIGGER_TIME_BITBANK_MONA  = "* * * * *"
 const TRIGGER_TIME_BALANCE       = "1 * * * *"
+const TRIGGER_TIME_BITFLYER_TICKER = "* * * * *"
+const TRIGGER_TIME_BITFLYER_POSITION = "* * * * *"
 
 exports.oandaPrimaryFunction = functions.pubsub.schedule(TRIGGER_TIME_OANDA_PRIMARY).onRun((context) => {
     let primary = require("./logic/oanda-primary");
@@ -49,4 +51,14 @@ exports.bitbankMonaFunction = functions.pubsub.schedule(TRIGGER_TIME_BITBANK_MON
 exports.checkBalanceFunction = functions.pubsub.schedule(TRIGGER_TIME_BALANCE).onRun((context) => {
     let balance = require("./logic/check-balance")
     balance.doExecute();
+});
+
+exports.bitbankMonaFunction = functions.pubsub.schedule(TRIGGER_TIME_BITFLYER_TICKER).onRun((context) => {
+    let bf = require("./logic/bitflyer-ticker")
+    bf.doExecute();
+});
+
+exports.checkBalanceFunction = functions.pubsub.schedule(TRIGGER_TIME_BITFLYER_POSITION).onRun((context) => {
+    let bf = require("./logic/bitflyer-btcjphy")
+    bf.doExecute();
 });

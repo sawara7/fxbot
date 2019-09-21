@@ -53,12 +53,12 @@ exports.checkBalanceFunction = functions.pubsub.schedule(TRIGGER_TIME_BALANCE).o
     balance.doExecute();
 });
 
-exports.bitbankMonaFunction = functions.pubsub.schedule(TRIGGER_TIME_BITFLYER_TICKER).onRun((context) => {
+exports.bitflyerTickerFunction = functions.pubsub.schedule(TRIGGER_TIME_BITFLYER_TICKER).onRun((context) => {
     let bf = require("./logic/bitflyer-ticker")
     bf.doExecute();
 });
 
-exports.checkBalanceFunction = functions.pubsub.schedule(TRIGGER_TIME_BITFLYER_POSITION).onRun((context) => {
+exports.bitflyerPositionFunction = functions.pubsub.schedule(TRIGGER_TIME_BITFLYER_POSITION).onRun((context) => {
     let bf = require("./logic/bitflyer-btcjphy")
     bf.doExecute();
 });

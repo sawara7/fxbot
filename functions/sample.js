@@ -1,4 +1,4 @@
-let sample = require("./logic/check-balance");
+let sample = require("./logic/bitflyer-position");
 
 (async () => {
     await sample.doExecute()

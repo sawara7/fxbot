@@ -111,6 +111,36 @@ class Api {
         }
         return this.post(path, body);
     }
+    sendIFDOCOOrder(code, side, size,price, range_upper, range_lower) {
+        const path = "/v1/me/sendparentorder";
+        let opposite_side = side==="BUY" ? "SELL" : "BUY"
+        let body = {
+            "order_method": "IFDOCO",
+            "minute_to_expire": 10000,
+            "time_in_force": "GTC",
+            "parameters": [{
+              "product_code":code,
+              "condition_type": "MARKET",
+              "side": side,
+              "size": size
+            },
+            {
+              "product_code":code,
+              "condition_type": "LIMIT",
+              "side": opposite_side,
+              "price": side==="BUY" ? price + range_upper : price - range_upper,
+              "size": size
+            },
+            {
+              "product_code":code,
+              "condition_type": "STOP",
+              "side": opposite_side,
+              "trigger_price": side==="BUY" ? price - range_lower : price + range_lower,
+              "size": size
+            }]
+          }
+        return this.post(path, body);
+    }
 
 }
 exports.Api = Api;

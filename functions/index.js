@@ -59,6 +59,6 @@ exports.bitflyerTickerFunction = functions.pubsub.schedule(TRIGGER_TIME_BITFLYER
 });
 
 exports.bitflyerPositionFunction = functions.pubsub.schedule(TRIGGER_TIME_BITFLYER_POSITION).onRun((context) => {
-    let bf = require("./logic/bitflyer-btcjphy")
+    let bf = require("./logic/bitflyer-position")
     bf.doExecute();
 });

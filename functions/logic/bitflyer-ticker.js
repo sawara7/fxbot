@@ -12,17 +12,18 @@ const PAIR   = 'FX_BTC_JPY';
 
 exports.doExecute = async() => {
     let tk = await bf.getTicker(PAIR);
+    let ltp = tk.ltp;
     let pre = await firebase.getData("/bot/bitflyer/ticker/fxbtcjpy");
     let average = 0;
     if (pre && pre > 1000){
-        if (tk && tk > 1000){
-            average = pre * 0.9 + tk * 0.1;
+        if (ltp && ltp > 1000){
+            average = pre * 0.9 + ltp * 0.1;
         }else{
             average = pre;
         }
     }else{
-        if (tk && tk > 1000){
-            average = tk;
+        if (ltp && ltp > 1000){
+            average = ltp;
         }else{
             return
         }

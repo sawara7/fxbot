@@ -5,7 +5,7 @@ let env   = require("../_env");
 let ORDER_REQUEST = {
     'type'          : 'MARKET',
     'instrument'    : 'TRY_JPY',
-    'units'         : 30,
+    'units'         : 15,
     'timeInForce'   : 'FOK',
     'positionFill'  : 'DEFAULT'
 };

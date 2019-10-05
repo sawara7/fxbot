@@ -4,7 +4,7 @@ const env     = require('../_env');
 const conf_public = {
     'endPoint': env.URL_BB_PUBLIC,  // required
     'keepAlive': false,             // optional, default false
-    'timeout': 3000,                // optional, default 3000
+    'timeout': 60000,               // optional, default 3000
 };
 
 const conf_private = {
@@ -12,7 +12,7 @@ const conf_private = {
     'apiKey': env.ACCOUNT_BB,		// required
     'apiSecret': env.APIKEY_BB,		// required
     'keepAlive': false,				// optional, default->false
-    'timeout': 3000					// optional, default->3000
+    'timeout': 60000			    // optional, default->3000
 };
 
 let publicApi =new bitbank.PublicApi(conf_public);
@@ -20,8 +20,12 @@ let privateApi = new bitbank.PrivateApi(conf_private);
 
 let getTicker = async (pair) => { 
     let params = {'pair': pair};
-    let res = await publicApi.getTicker(params) 
-    return res.data;
+    let res = await publicApi.getTicker(params)
+    let data = res.data;
+    for (let key in data){
+        data[key] = Number(data[key])
+    } 
+    return data;
 };
 
 let BuyMarket = async (pair, amount) => {

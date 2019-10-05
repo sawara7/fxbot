@@ -19,17 +19,26 @@ exports.doExecute = async() => {
         return 'nothing'
     }
 
-    let tk = await bf.getTicker(PAIR);
-    let current_ltp = tk.ltp;
-    let average_ltp = await firebase.getData("/bot/bitflyer/ticker/fxbtcjpy");
-    if (current_ltp > average_ltp){
-        side = "BUY";
-        price = tk.best_ask;
-    }else{
-        side = "SELL";
-        price = tk.best_bid;
+    let bot_parameter = await firebase.getData("/bot/bitflyer/");
+    let range = Math.round(bot_parameter.execution.std);
+    let minmax = bot_parameter.execution.minmax;
+    let tk = await bf.getTicker("FX_BTC_JPY");
+
+    if (range < 500){
+        return 'nothing'
     }
 
-    await bf.sendIFDOCOOrder(PAIR, side, SIZE, price, 1000, 5000);
+    console.log(minmax, range);
+    if (minmax.max_time < 1000 *10 && minmax.min_time > 1000 * 60 * 3){
+        side = "SELL"
+        price = tk.best_bid;
+    }else if(minmax.min_time < 1000 * 10 && minmax.max_time > 1000 * 60 * 3){
+        side = "BUY"
+        price = tk.best_ask;
+    }else{
+        return "nothing"
+    }
+
+    await bf.sendIFDOCOOrder(PAIR, side, SIZE, price, range, range);
     return 'ok'
 }

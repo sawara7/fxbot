@@ -88,5 +88,9 @@ class Api {
         const path = '/v3/accounts/'.concat(this.accountID, '/orders');
         return this.post(path, {'order': request});
     }
+    postClose(instrument) {
+        const path = '/v3/accounts/'.concat(this.accountID, '/positions/', instrument, '/close');
+        return this.post(path);
+    }
 }
 exports.Api = Api;

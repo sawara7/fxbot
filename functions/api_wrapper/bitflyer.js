@@ -115,7 +115,7 @@ class Api {
         const path = "/v1/me/sendparentorder";
         let opposite_side = side==="BUY" ? "SELL" : "BUY"
         let body = {
-            "order_method": "IFDOCO",
+            "order_method": "IFD",
             "minute_to_expire": 10000,
             "time_in_force": "GTC",
             "parameters": [{
@@ -129,13 +129,6 @@ class Api {
               "condition_type": "LIMIT",
               "side": opposite_side,
               "price": side==="BUY" ? price + range_upper : price - range_upper,
-              "size": size
-            },
-            {
-              "product_code":code,
-              "condition_type": "STOP",
-              "side": opposite_side,
-              "trigger_price": side==="BUY" ? price - range_lower : price + range_lower,
               "size": size
             }]
           }

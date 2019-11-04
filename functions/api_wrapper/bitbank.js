@@ -54,7 +54,16 @@ let getAssets = async() => {
     return await privateApi.getAssets();
 }
 
-exports.BuyMarket   = BuyMarket;
-exports.SellMarket  = SellMarket;
-exports.getTicker   = getTicker;
-exports.getAssets   = getAssets;
+let getCandlestic = async(pair,type,yyyymmdd) => {
+    return await publicApi.getCandlestick({
+        "pair"        : pair,
+        "candleType"  : type,
+        "yyyymmdd"    : yyyymmdd
+    });
+}
+
+exports.BuyMarket     = BuyMarket;
+exports.SellMarket    = SellMarket;
+exports.getTicker     = getTicker;
+exports.getAssets     = getAssets;
+exports.getCandlestic = getCandlestic;

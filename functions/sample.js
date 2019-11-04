@@ -1,8 +1,5 @@
-let sample = require("./logic/bitbank-averaging");
+let sample = require("./logic/bitflyer-position");
 
 (async () => {
-    setInterval(
-        async () => {await sample.doExecute('btc_jpy', 0.0001, 1)},
-        1000 * 20
-    );
+    await sample.doExecute();
 })();

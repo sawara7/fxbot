@@ -4,11 +4,11 @@ const env     = require('../_env');
 
 let bf = new bitflyer.Api({
     "endPoint" : env.bitflyerURL,
-    "key" : env.apiKey,
-    "secret" : env.secret
+    "key"      : env.apiKey,
+    "secret"   : env.secret
 });
 
-const PAIR   = 'FX_BTC_JPY';
+const PAIR = 'FX_BTC_JPY';
 
 exports.doExecute = async() => {
     let tk = await bf.getTicker(PAIR);
@@ -28,5 +28,5 @@ exports.doExecute = async() => {
             return
         }
     }
-    await firebase.setData("/bot/bitflyer/ticker/fxbtcjpy", average);
+    await firebase.setData("/bot/bitflyer/ticker/fxbtcjpy", ticker);
 }

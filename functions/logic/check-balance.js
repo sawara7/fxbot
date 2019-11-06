@@ -1,7 +1,7 @@
 /* eslint-disable promise/catch-or-return */
 let bitbank  = require("../api_wrapper/bitbank");
 let bitflyer = require("../api_wrapper/bitflyer")
-let oanda    = require("../api_wrapper/oanda-promise/oanda-promise-extend");
+let oanda    = require("../api_wrapper/oanda");
 let firebase = require("../api_wrapper/firebase");
 let env      = require("../_env")
 

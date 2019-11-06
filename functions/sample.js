@@ -1,4 +1,4 @@
-let sample = require("./logic/bitflyer-position");
+let sample = require("./logic/oanda-averaging");
 
 (async () => {
     await sample.doExecute();

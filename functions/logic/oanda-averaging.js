@@ -7,13 +7,13 @@ const ORDER_LIST = [
     'id'            : env.accountID_aji,
     'trigger_minute':[3, 33],
     'instrument'    : 'USD_JPY',
-    'units'         : 5,
+    'units'         : 10,
     'rate'          : 0.0005
     },{
     'id'            : env.accountID_iwashi,
     'trigger_minute':[4, 34],
     'instrument'    : 'TRY_JPY',
-    'units'         : 10,
+    'units'         : 20,
     'rate'          : 0.0005
     },
     {
@@ -28,18 +28,18 @@ const ORDER_LIST = [
     'trigger_minute':[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55],
     'instrument'    : 'USD_JPY',
     'units'         : 5,
-    'rate'          : 0.0001
+    'rate'          : 0.0003
     },{
     'id'            : env.accountID_sawara,
     'trigger_minute':[7, 37],
     'instrument'    : 'ZAR_JPY',
-    'units'         : 30,
+    'units'         : 50,
     'rate'          : 0.0005
     },{
     'id'            : env.accountID_tara,
     'trigger_minute':[8, 38],
     'instrument'    : 'AUD_JPY',
-    'units'         : 5,
+    'units'         : 10,
     'rate'          : 0.0005
     }]
 
@@ -64,7 +64,7 @@ exports.doExecute = async() => {
             api.accountID = req.id;
             let account = await api.getAccount();
             let rate = account.account.marginCloseoutUnrealizedPL / account.account.marginCloseoutPositionValue;
-            if (rate > req.rate){
+            if (rate > req.rate && account.account.marginCloseoutUnrealizedPL > 100){
                 res = await api.closePosition(req.instrument);
                 console.log(req.id, 'close');
                 return res;

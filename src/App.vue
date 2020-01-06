@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    <vMenu/>
     <vHome v-if="isAdmin"/>
     <vLogin v-if="!isAdmin"/>
     <vFooter/>
